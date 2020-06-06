@@ -1,0 +1,26 @@
+// // Define a color variable
+$color-sassy: #cc4397;
+$color-blue: #0059ff;
+
+.sass-1 {
+    color: $color-blue;
+    font-size: 2rem;
+    text-align: center;
+    .sassyDiv {
+        font-size: 3rem;
+        color: $color-sassy;
+    }
+}
+
+.sass-2 {
+    color: $color-sassy;
+    font-size: 3rem;
+}
+
+// .sass-1 {
+//     color: red;
+// }
+
+// .sass-2 {
+//     color: blue;
+// }
