@@ -1,0 +1,46 @@
+/*
+ * Theme definitions
+ */
+
+$themes: (
+    light: (
+        background: white,
+        border: 1px solid #c4c4c4,
+        text-primary: black,
+        text-secondary: grey,
+        message-primary: lightgrey,
+        message-secondary: #85c9c6
+    ),
+    dark: (
+        background: #2f2d2c,
+        border: 1px solid #c4c4c4,
+        text-primary: white,
+        text-secondary: grey,
+        message-primary: purple,
+        message-secondary: orange,
+    )
+);
+
+/*
+ * Implementation of themes
+ */
+
+@mixin themify($themes) {
+    @each $theme, $map in $themes {
+        .theme-#{$theme} & {
+            $theme-map: () !global;
+
+            @each $key, $submap in $map {
+                $value: map-get(map-get($themes, $theme), '#{$key}');
+                $theme-map: map-merge($theme-map, ($key: $value)) !global;
+            }
+            
+            @content;
+            $theme-map: null !global;
+        }
+    }
+}
+  
+@function themed($key) {
+    @return map-get($theme-map, $key);
+}

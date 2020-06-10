@@ -1,26 +1,26 @@
-// // Define a color variable
-$color-sassy: #cc4397;
-$color-blue: #0059ff;
+@import './themes.scss';
 
-.sass-1 {
-    color: $color-blue;
-    font-size: 2rem;
-    text-align: center;
-    .sassyDiv {
-        font-size: 3rem;
-        color: $color-sassy;
+body, #root {
+    height: 100vh;
+    margin: 0;
+}
+
+div[class*="theme"], .style-wrapper {
+    height: 100vh;
+}
+
+// .style-wrapper {
+//     background-color: darkslategray;
+//     padding: 16px;
+// }
+
+.style-wrapper {
+    @include themify($themes) {
+        background-color: themed('background');
+        color: themed('text-primary');
     }
+
+    padding: 16px 0;
 }
 
-.sass-2 {
-    color: $color-sassy;
-    font-size: 3rem;
-}
 
-// .sass-1 {
-//     color: red;
-// }
-
-// .sass-2 {
-//     color: blue;
-// }

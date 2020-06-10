@@ -6,14 +6,14 @@ import './custom.scss';
 import App from './App';
 
 import { BrowserRouter as Router } from 'react-router-dom';
-// import { CtxProvider } from './context/context';
+import { CtxProvider } from './context/context';
 
 ReactDOM.render(
-    // <CtxProvider>
+    <CtxProvider>
         <Router>
             <App />
-        </Router>,
-    // </CtxProvider>,
+        </Router>
+    </CtxProvider>,
 
     document.getElementById('root')
 );

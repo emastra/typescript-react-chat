@@ -11,7 +11,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname, '../../dist')));
 
-// const { generateMessage, generateLocationMessage } = require('./utils/message');
+// const { generateMessage } = require('./utils/message');
 // const { isRealString, ensureCase } = require('./utils/validation');
 // const { Users } = require('./utils/users');
 
@@ -30,12 +30,12 @@ io.on('connection', (socket) => {
     // createMessage event listener. Emit to every single connection
     // acknowledgments allow the request listener to send something back to the request emitter // placing a callback as 2nd arg in the callback function and then call it after...
     socket.on('createMessage', (message, callback) => {
-        var user = users.getUser(socket.id);
+        io.emit('newMessage', message);
 
-        if (user && isRealString(message.text)) {
-            io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
-        }
-        callback();
+        // if (user && isRealString(message.text)) {
+        //     io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
+        // }
+        // callback();
     });
 
     // Listen for createLocationMessage
@@ -51,13 +51,14 @@ io.on('connection', (socket) => {
     // disconnect event
     socket.on('disconnect', () => {
         // remove user from the list when disconnet.
-        var user = users.removeUser(socket.id);
-        if (user) {
-            // if removed, send updated list and message
-            console.log('User was disconnected');
-            io.to(user.room).emit('updateUserList', users.getUserList(user.room));
-            io.to(user.room).emit('newMessage', generateMessage('Admin', `${user.name} has left.`));
-        }
+        // var user = users.removeUser(socket.id);
+        // if (user) {
+        //     // if removed, send updated list and message
+        //     console.log('User was disconnected');
+        //     io.to(user.room).emit('updateUserList', users.getUserList(user.room));
+        //     io.to(user.room).emit('newMessage', generateMessage('Admin', `${user.name} has left.`));
+        // }
+        console.log('User disconnected');
     });
 
 });

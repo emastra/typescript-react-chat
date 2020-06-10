@@ -1,0 +1,39 @@
+@import '../../themes.scss';
+
+.received_msg {
+    display: inline-block;
+    padding: 0 0 0 10px;
+    vertical-align: top;
+    
+    width: 92%; //92 !
+
+    margin-bottom: 1rem;
+}
+
+.received_withd_msg { 
+    width: 50%; //50 !
+}
+
+.received_withd_msg p {
+    // background: #ebebeb none repeat scroll 0 0;
+    @include themify($themes) {
+        background: themed('message-primary');
+        color: themed('text-primary');
+    }
+
+    border-radius: 0 8px 8px;
+    font-size: 14px;
+    margin: 0;
+    padding: 10px 15px;
+    /* width: 100%; */
+}
+
+.time_date {
+    // color: #747474;
+    @include themify($themes) {
+        color: themed('text-primary');
+    }
+    display: block;
+    font-size: 12px;
+    margin: 0; //8px 0 0
+}

@@ -1,0 +1,34 @@
+.settings-wrapper {
+    border: 1px solid #c4c4c4;
+    /* clear: both; ce lo metto? */
+    overflow-y: scroll;
+    height: calc(100vh - 144px);
+} 
+
+
+fieldset.box {
+    padding: 10px 25px;
+    margin-top: 3vh;
+}
+
+.box > p {
+    margin: 0 0 5px;
+}
+
+#username-input {
+    width: 100%;
+    max-width: 400px;
+}
+
+input[type="radio"] {
+    vertical-align: text-bottom;
+    margin-right: .5rem;
+}
+
+label > span {
+    margin-right: 2.5rem;
+}
+
+#language-select {
+    width: 180px;   /* cambio px to rem dove possibile? */
+}

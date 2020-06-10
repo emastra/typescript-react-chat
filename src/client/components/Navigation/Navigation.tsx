@@ -1,34 +1,42 @@
+// @ts-nocheck
+
 import * as React from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { Navbar, Nav, NavItem, NavLink } from 'reactstrap';
-import { Container } from 'reactstrap';
-
 import './Navigation.scss';
 
+import { CtxConsumer } from '../../context/context';
+
 export default function Navigation() {
+    // const pathname = window.location.pathname;
+
     return (
-        <Container>
-            <Navbar className='navigation'>
-                <Nav className="mr-auto">
-                    <NavItem>
-                        <NavLink>
-                            <Link to='/'>
+        <CtxConsumer>
+            {(ctx) => {
+                const { isBlinking, checkBlinking } = ctx;
+
+                return (
+                    <div className="header">
+                        <div className="link-wrapper">
+                            <Link 
+                                className={isBlinking ? 'header-link blinking' : 'header-link'}
+                                to='/'
+                                onClick={checkBlinking}
+                            >
                                 Chat
                             </Link>
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink>
-                            <Link to='/settings'>
+                            <Link 
+                                // className={pathname === '/settings' ? 'header-link active': 'header-link'}
+                                className='header-link active'
+                                to='/settings'
+                            >
                                 Settings
                             </Link>
-                        </NavLink>
-                    </NavItem>
-                </Nav>
-            </Navbar>
-        </Container>
-        
-    )
+                        </div>
+                    </div>
+                );
+            }}
+        </CtxConsumer>
+    );
 }

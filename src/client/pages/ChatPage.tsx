@@ -1,16 +1,26 @@
+// @ts-nocheck
+
 import * as React from 'react';
 
-import { Container } from 'reactstrap';
+import './ChatPage.scss';
 
-import './ChatPage.scss'
+import ChatMain from '../components/ChatMain/ChatMain';
+import ChatBottom from '../components/ChatBottom/ChatBottom';
 
-export default function ChatPage() {
-    return (
-        <Container>
-            <div className='pages'>
-                Hello from Chat Page
-            </div>
-        </Container>
-        
-    )
+export default class ChatPage extends React.Component {
+
+
+    componentDidMount() {
+        console.log('chatpage mounted');
+    }
+
+    render() {
+        return (
+            <>
+                <ChatMain />
+                <ChatBottom />
+            </>
+        );
+    }
 }
+

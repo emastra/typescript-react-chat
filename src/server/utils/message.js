@@ -3,8 +3,9 @@ var moment = require('moment');
 var generateMessage = (from, text) => {
   return {
     from,
-    text,
-    createdAt: moment().valueOf() // same as: new Date().getTime()
+    content: text,
+    // createdAt: moment().valueOf() // same as: new Date().getTime()
+    time: Date().getTime()
   };
 };
 

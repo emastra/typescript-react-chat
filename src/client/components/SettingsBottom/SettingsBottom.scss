@@ -1,0 +1,25 @@
+.bottom-section {
+    position: relative; /* perche ?? */
+    width: 100%;
+    margin: 8px 0 16px 0;
+}
+  
+.bottom-wrapper {
+    box-sizing: border-box; /* perche ?? */
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    display: inline-block;
+    position: absolute; /* perche ?? */
+    left: 0; 
+    right: 0;
+}
+
+#reset-button {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    border: 1px solid #c4c4c4;
+    width: 100%;
+    height: 48px;
+    padding: 5px;
+}
