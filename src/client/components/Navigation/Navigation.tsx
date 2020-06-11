@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import './Navigation.scss';
 
@@ -19,20 +19,23 @@ export default function Navigation() {
                 return (
                     <div className="header">
                         <div className="link-wrapper">
-                            <Link 
+                            <NavLink 
                                 className={isBlinking ? 'header-link blinking' : 'header-link'}
+                                activeClassName="active"
+                                exact={true}
                                 to='/'
                                 onClick={checkBlinking}
                             >
                                 Chat
-                            </Link>
-                            <Link 
+                            </NavLink>
+                            <NavLink 
                                 // className={pathname === '/settings' ? 'header-link active': 'header-link'}
-                                className='header-link active'
+                                className='header-link'
+                                activeClassName="active"
                                 to='/settings'
                             >
                                 Settings
-                            </Link>
+                            </NavLink>
                         </div>
                     </div>
                 );

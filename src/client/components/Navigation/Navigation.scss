@@ -29,6 +29,7 @@ a.header-link {
     text-decoration: none;
     position: relative;
     top: -2px;
+    outline: 0;
 
     @include themify($themes) {
         color: themed('text-primary');

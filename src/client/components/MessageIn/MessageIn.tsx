@@ -12,8 +12,8 @@ export default function MessageIn(props) {
     
     return (
         <div className="received_msg">
-            <div className="received_withd_msg">
             <span className="time_date">{`${from} | ${datetime}`}</span>
+            <div className="received_withd_msg">
                 <p>{content}</p>
             </div>
         </div>

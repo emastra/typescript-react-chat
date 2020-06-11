@@ -12,8 +12,8 @@ export default function MessageOut(props) {
 
     return (
         <div className="sent_msg">
-            <div className="sent_withd_msg">
             <span className="time_date right">{`${datetime}`}</span>
+            <div className="sent_withd_msg">
                 <p>{content}</p>
             </div>
         </div>
