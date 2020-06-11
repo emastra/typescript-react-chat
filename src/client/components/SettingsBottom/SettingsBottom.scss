@@ -1,15 +1,15 @@
 .bottom-section {
-    position: relative; /* perche ?? */
+    position: relative;
     width: 100%;
     margin: 8px 0 16px 0;
 }
   
 .bottom-wrapper {
-    box-sizing: border-box; /* perche ?? */
+    box-sizing: border-box; 
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     display: inline-block;
-    position: absolute; /* perche ?? */
+    position: absolute;
     left: 0; 
     right: 0;
 }

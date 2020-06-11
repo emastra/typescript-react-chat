@@ -1,6 +1,5 @@
 .settings-wrapper {
     border: 1px solid #c4c4c4;
-    /* clear: both; ce lo metto? */
     overflow-y: scroll;
     height: calc(100vh - 144px);
 } 
@@ -30,5 +29,5 @@ label > span {
 }
 
 #language-select {
-    width: 180px;   /* cambio px to rem dove possibile? */
+    width: 180px;   /* cambio px to rem */
 }

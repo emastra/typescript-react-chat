@@ -10,14 +10,14 @@ export default function SettingsBottom() {
     return (
         <CtxConsumer>
             {(ctx) => {
-                const { resetStorageSettings } = ctx;
+                const { resetSettings } = ctx;
 
                 return (
                     <div className="bottom-section">
                         <div className="bottom-wrapper">
                             <button 
                                 id="reset-button"
-                                onClick={resetStorageSettings}
+                                onClick={resetSettings}
                             >
                                 Reset to defaults
                             </button>

@@ -1,92 +1,48 @@
 // @ts-nocheck
 
 import * as React from 'react';
-import * as io from 'socket.io-client';
+
+import Socket from '../socket/Socket';
+import StorageClient from '../utilities/StorageClient';
 
 const Context = React.createContext();
 
 
 class CtxProvider extends React.Component {
-    state = {
-        settings: {},
-        messages: [],
-        isBlinking: false
-    };
+    constructor(props) {
+        super(props);
+     
+        this.state = {
+            settings: {},
+            messages: []
+        };
+
+        // init socket class
+        this.socket = new Socket(this.setNewMessage);
+        // init localStorage client
+        this.storage = new StorageClient();
+    }
 
     componentDidMount() {
         // start socket event listeners
-        this.onConnect();
-        this.onDisconnect();
-        this.onNewMessage();
+        this.socket.onConnect();
+        this.socket.onDisconnect();
+        this.socket.onNewMessage();
 
-        // read localstorage and set state of settings!!
-        const settings = this.getStorageSettings();
-        this.setState({
-            settings: {
-                ...settings
-            }
-        });
+        // read localstorage, or set defaults
+        let { 
+            settings = this._defaultSettings, 
+            messages = []
+        } = this.storage.getStorage();
 
-        // read localstorage and set state of messages!!
-        const messages = this.getStorageMessages();
+        // set state
         this.setState({
+            settings: { ...settings },
             messages: [ ...messages ]
         });
     }
 
-
-    // Socket
-
-    socket = io('localhost:3000'); // !!! dinamico here!
-
-    onConnect = () => {
-        console.log('connect called!');
-        this.socket.on('connect', () => {
-            console.log('Connected to server');
-        });
-    }
-
-    onDisconnect = () => {
-        this.socket.on('disconnect', () => {
-            console.log('Disconnected from server');
-        });
-    }
-
-    onNewMessage = () => {
-        this.socket.on('newMessage', (newMessage) => {
-            // if it's not the sender of the message - check if message.id is already in state.messages -NO: check isOut
-            if (!this.state.messages.some(m => m.id === newMessage.id)) {
-                const messages = [ ...this.state.messages ];
-
-                //toggle
-                let { isBlinking } = this.state;
-                if (window.location.pathname !== '/') {
-                    isBlinking = !isBlinking
-                }
-
-                this.setState((state) => {
-                    return { 
-                        messages: [ ...messages, newMessage ],
-                        isBlinking
-                    };
-                },
-                    this.syncStorageMessages
-                );
-            }
-        });
-    }
-
-    emit = (ioEvent, message) => {
-        console.log('emit method just called with message:', message);
-        const outMessage = Object.assign({}, message, { isOut: true });
-        console.log('emitting', outMessage);
-        this.socket.emit(ioEvent, outMessage);
-    }
-
-    // Settings
-
-    // defaultSettings
-    defaultSettings = {
+    _defaultSettings = {
         username: 'guest',
         selectedTheme: 'light',
         clockDisplay: '12',
@@ -94,53 +50,9 @@ class CtxProvider extends React.Component {
         language: 'en'
     };
 
-    syncStorageSettings = () => {
-        localStorage.setItem('settings', JSON.stringify(this.state.settings));
-    };
+    _generateNextId = () => {
+        const { messages = [] } = this.storage.getStorage('messages');
 
-    getStorageSettings = () => {
-        let settings;
-
-        if (localStorage.getItem('settings')) {
-            settings = JSON.parse(localStorage.getItem('settings'));
-        } else {
-            // set default settings
-            settings = this.defaultSettings;
-        }
-
-        return settings;
-    };
-
-    resetStorageSettings = () => {
-        // set settings state to defaults, and sync the storage
-        this.setState({
-            settings: {
-                ...this.defaultSettings
-            }
-        }, 
-            this.syncStorageSettings
-        )
-    }
-
-    handleInputChange = (event) => {
-        const settings = Object.assign({}, this.state.settings);
-        const name = event.target.name;
-        const value = event.target.value;
-
-        this.setState({
-            settings: {
-                ...settings,
-                [name]: value
-            }
-        }, 
-            this.syncStorageSettings
-        );
-    }
-
-    // Messages
-
-    generateNextId = () => {
-        const messages = this.getStorageMessages();
         const lastMessage = messages[messages.length - 1];
         let lastId = lastMessage ? lastMessage.id : null;
 
@@ -148,40 +60,73 @@ class CtxProvider extends React.Component {
         else return String(++lastId);
     }
 
-    syncStorageMessages = () => {
-        localStorage.setItem('messages', JSON.stringify(this.state.messages));
-    };
+    setNewMessage = (newMessage) => {
+        // check is message is incoming
+        const isReceived = !this.state.messages.some(m => m.id === newMessage.id);
 
-    getStorageMessages = () => {
-        let messages;
+        if (isReceived) {
+            const messages = [ ...this.state.messages ];
 
-        if (localStorage.getItem('messages')) {
-            messages = JSON.parse(localStorage.getItem('messages'));
-        } else {
-            messages = [];
+            // add newMessage to state and sync the localStorage
+            this.setState((state) => {
+                return { 
+                    messages: [ ...messages, newMessage ]
+                };
+            },
+                this.syncStorageMessages
+            );
         }
+    }
 
-        return messages;
+    resetSettings = () => {
+        // set settings state to defaults, and sync the localStorage
+        this.setState({
+            settings: {
+                ...this._defaultSettings
+            }
+        }, () => {
+            this.storage.syncStorage('settings', this.state.settings);
+        });
+    }
+
+    handleInputChange = (event) => {
+        const settings = Object.assign({}, this.state.settings);
+        const name = event.target.name;
+        const value = event.target.value;
+
+        // add updated value to settings property
+        this.setState({
+            settings: {
+                ...settings,
+                [name]: value
+            }
+        }, () => {
+            this.storage.syncStorage('settings', this.state.settings);
+        });
     }
 
     handleMessageSubmit = (text) => {
         const messages = [ ...this.state.messages ];
+
+        // generate new message
         const newMessage = {
-            id: this.generateNextId(), 
+            id: this._generateNextId(), 
             from: this.state.settings.username, 
             time: new Date().getTime(), 
             content: text
         }
 
-        this.emit('createMessage', newMessage);
+        // emit new message to all connected clients
+        this.socket.emit('createMessage', newMessage);
 
+        // add new message to state
         this.setState((state) => {
             return {
                 messages: [ ...messages, newMessage ]
             }
-        },
-            this.syncStorageMessages
-        );
+        }, () => {
+            this.storage.syncStorage('messages', this.state.messages);
+        });
     }
 
     checkEnterKey = (event) => {
@@ -191,19 +136,6 @@ class CtxProvider extends React.Component {
             event.preventDefault();
     }
 
-    // altro
-
-    checkBlinking = (e) => {
-        if (this.state.isBlinking) {
-            this.setState((state) => {
-                return {
-                    isBlinking: !state.isBlinking
-                }
-            })
-        }
-    }
-   
-
     render() {
         return (
             <Context.Provider
@@ -211,10 +143,9 @@ class CtxProvider extends React.Component {
                     ...this.state,
 
                     handleInputChange: this.handleInputChange,
-                    resetStorageSettings: this.resetStorageSettings,
+                    resetSettings: this.resetSettings,
                     handleMessageSubmit: this.handleMessageSubmit,
-                    checkEnterKey: this.checkEnterKey,
-                    checkBlinking: this.checkBlinking
+                    checkEnterKey: this.checkEnterKey
                 }}
             >
                 {this.props.children}

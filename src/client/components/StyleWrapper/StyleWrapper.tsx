@@ -2,7 +2,9 @@
 
 import * as React from 'react';
 
-import { CtxConsumer } from '../context/context';
+import './StyleWrapper.scss';
+
+import { CtxConsumer } from '../../context/context';
 
 export default function Container(props) {
     return (

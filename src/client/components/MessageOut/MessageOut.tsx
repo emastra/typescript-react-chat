@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import './MessageOut.scss';
 
-import { generateDateTimeString } from '../../utils/utils';
+import { generateDateTimeString } from '../../utilities/utils';
 
 export default function MessageOut(props) {
     const { message: {from, time, content}, clockDisplay } = props;

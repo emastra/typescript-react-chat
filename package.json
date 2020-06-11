@@ -5,10 +5,10 @@
     "main": "index.js",
     "scripts": {
         "start": "node src/server/index.js",
-        "client": "webpack-dev-server --mode development --devtool inline-source-map",
+        "client": "webpack-dev-server --mode development --devtool inline-source-map --env.SERVER_URL=http://localhost:3000",
         "server": "node src/server/index.js",
         "dev": "concurrently \"npm run server\" \"npm run client\"",
-        "build": "webpack --mode production",
+        "build": "webpack --mode production --env.SERVER_URL=https://herokuapp.com",
         "test": "jest --watchAll --verbose"
     },
     "keywords": [],

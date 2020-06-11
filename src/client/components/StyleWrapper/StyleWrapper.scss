@@ -1,4 +1,4 @@
-@import './themes.scss';
+@import '../../themes.scss';
 
 body, #root {
     height: 100vh;
@@ -9,11 +9,6 @@ div[class*="theme"], .style-wrapper {
     height: 100vh;
 }
 
-// .style-wrapper {
-//     background-color: darkslategray;
-//     padding: 16px;
-// }
-
 .style-wrapper {
     @include themify($themes) {
         background-color: themed('background');
@@ -22,5 +17,3 @@ div[class*="theme"], .style-wrapper {
 
     padding: 16px 0;
 }
-
-

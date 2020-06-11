@@ -2,8 +2,6 @@
 
 import * as React from 'react';
 
-// import style --from ChatBottom
-
 import { FaTelegramPlane } from 'react-icons/fa';
 
 import { CtxConsumer } from '../../context/context';
@@ -13,17 +11,15 @@ export default class SendForm extends React.Component {
         textInput: ''
     }
 
-    onInputChange = (e: any): void => {
+    onInputChange = (e) => {
         const textInput = e.target.value;
         this.setState({ textInput });
     };
 
-    onSubmit = (e: any, cb: any): void => {
+    onSubmit = (e, callback) => {
         e.preventDefault();
 
-        // const { handleMessageSubmit } = this.context;
-
-        cb(this.state.textInput);
+        callback(this.state.textInput);
 
         this.setState({
             textInput: ''

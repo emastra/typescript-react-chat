@@ -1,13 +1,5 @@
 @import '../../themes.scss';
 
-// .header {
-//     border: 1px solid #c4c4c4;
-//     /* min-height: 48px; non fa nulla */
-//     margin: 0 0 8px 0;
-//     height: 48px;
-//     line-height: 48px;
-// }
-
 .header {
     @include themify($themes) {
         border: themed('border');
@@ -40,19 +32,17 @@ a.header-link:hover {
     @include themify($themes) {
         color: themed('text-secondary');
     }
-    // color: brown;
 }
 
 a.header-link.active {
     @include themify($themes) {
         background-image: linear-gradient(120deg, themed('message-primary') 0%, themed('message-secondary') 100%); 
     }
-    // background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%); 
+
     background-repeat: no-repeat;
     background-size: 100% 0.2em;
     background-position: 0 88%;
     transition: background-size 0.25s ease-in;
-    /* text-decoration: underline; */
     border-radius: 20px;
 }
 

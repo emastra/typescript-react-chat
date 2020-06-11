@@ -1,6 +1,4 @@
-/*
- * Theme definitions
- */
+// Definitions
 
 $themes: (
     light: (
@@ -21,9 +19,7 @@ $themes: (
     )
 );
 
-/*
- * Implementation of themes
- */
+// Implementation
 
 @mixin themify($themes) {
     @each $theme, $map in $themes {

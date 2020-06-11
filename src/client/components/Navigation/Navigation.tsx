@@ -6,40 +6,53 @@ import { NavLink } from 'react-router-dom';
 
 import './Navigation.scss';
 
-import { CtxConsumer } from '../../context/context';
 
-export default function Navigation() {
-    // const pathname = window.location.pathname;
+export default class Navigation extends React.Component {
+    state = {
+        isBlinking: false
+    }
 
-    return (
-        <CtxConsumer>
-            {(ctx) => {
-                const { isBlinking, checkBlinking } = ctx;
+    componentDidUpdate(prevProps) {
+        if (window.location.pathname !== '/' && prevProps.totalMessages < this.props.totalMessages) {
+            this.setState({
+                isBlinking: true
+            });
+        }
+    }
+  
+    checkBlinking = () => {
+        if (this.state.isBlinking) {
+            this.setState({
+                isBlinking: false
+            });
+        }
+    }
 
-                return (
-                    <div className="header">
-                        <div className="link-wrapper">
-                            <NavLink 
-                                className={isBlinking ? 'header-link blinking' : 'header-link'}
-                                activeClassName="active"
-                                exact={true}
-                                to='/'
-                                onClick={checkBlinking}
-                            >
-                                Chat
-                            </NavLink>
-                            <NavLink 
-                                // className={pathname === '/settings' ? 'header-link active': 'header-link'}
-                                className='header-link'
-                                activeClassName="active"
-                                to='/settings'
-                            >
-                                Settings
-                            </NavLink>
-                        </div>
-                    </div>
-                );
-            }}
-        </CtxConsumer>
-    );
+    render() {
+        const { isBlinking } = this.state;
+        
+        return (
+            <div className="header">
+                <div className="link-wrapper">
+                    <NavLink 
+                        className={`header-link ${isBlinking ? 'blinking' : ''}`}
+                        activeClassName="active"
+                        exact={true}
+                        to='/'
+                        onClick={this.checkBlinking}
+                    >
+                        Chat
+                    </NavLink>
+                    <NavLink 
+                        className='header-link'
+                        activeClassName="active"
+                        to='/settings'
+                    >
+                        Settings
+                    </NavLink>
+                </div>
+            </div>
+        );
+    }
 }
+
