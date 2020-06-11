@@ -1,7 +1,6 @@
 // @ts-nocheck
 
 import * as React from 'react';
-// import nextId from "react-id-generator";  // npm uninstall !!!!!!
 import * as io from 'socket.io-client';
 
 const Context = React.createContext();
@@ -13,8 +12,6 @@ class CtxProvider extends React.Component {
         messages: [],
         isBlinking: false
     };
-
-    socket = io('localhost:3000'); // !!! dinamico here!
 
     componentDidMount() {
         // start socket event listeners
@@ -39,6 +36,8 @@ class CtxProvider extends React.Component {
 
 
     // Socket
+
+    socket = io('localhost:3000'); // !!! dinamico here!
 
     onConnect = () => {
         console.log('connect called!');
