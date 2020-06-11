@@ -1,6 +1,6 @@
 ## React Chat
 
-React chat is a modern chat based on React and Node.js
+React chat is a socket.io based chat interface built on React and Node.js
 
 ### How to run it
 
@@ -9,9 +9,8 @@ npm i
 npm run dev
 ```
 
-### Features & Requirements
+### Features
 
-- [x] Socket.io server
 - [x] Chat page
 - [x] Settings page
 - [x] Floating messages
@@ -25,6 +24,9 @@ npm run dev
 - [ ] Optional setting page features
 - [x] Local storage
 
+### Requirements
+
+- [x] Build your own socket.io server
 - [x] use React
 - [x] use CSS preprocessors
 - [ ] use Typescript
