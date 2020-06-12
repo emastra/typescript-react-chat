@@ -15,7 +15,7 @@ export default function SettingsMain() {
 
                 return (
                     <div className="settings-wrapper">
-                        <form id="settings-form">
+                        <form id="settings-form" onSubmit={(e) => e.preventDefault()}>
                             <fieldset className="username box">
                                 <p>User name</p>
                                 <input 
@@ -34,7 +34,7 @@ export default function SettingsMain() {
                                         name="selectedTheme"         
                                         value="light"
                                         onChange={handleInputChange}
-                                        checked={selectedTheme === 'light' ? true : false}
+                                        checked={selectedTheme === 'light'}
                                     />
                                     <span>Light</span> 
                                 </label>
@@ -102,7 +102,6 @@ export default function SettingsMain() {
                                 <p>Language</p>
                                 <select id="language-select">
                                     <option value="en">English</option>
-                                    <option value="it">Italian</option>
                                 </select>
                             </fieldset>
                         </form>
