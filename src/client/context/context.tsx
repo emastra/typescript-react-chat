@@ -61,7 +61,7 @@ class CtxProvider extends React.Component {
     }
 
     setNewMessage = (newMessage) => {
-        // check is message is incoming
+        // check if message is incoming
         const isReceived = !this.state.messages.some(m => m.id === newMessage.id);
 
         if (isReceived) {
@@ -72,9 +72,9 @@ class CtxProvider extends React.Component {
                 return { 
                     messages: [ ...messages, newMessage ]
                 };
-            },
-                this.syncStorageMessages
-            );
+            }, () => {
+                this.storage.syncStorage('messages', this.state.messages);
+            });
         }
     }
 
