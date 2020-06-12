@@ -1,6 +1,7 @@
 ## React Chat
 
-React chat is a socket.io based chat interface built on React and Node.js
+React chat is a socket.io based chat interface built on React and Node.js.
+Live at: https://sleepy-forest-72769.herokuapp.com/
 
 ### How to run it
 
